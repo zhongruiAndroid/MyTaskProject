@@ -34,22 +34,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void test() {
-        Task.start(new TaskPerform<String>() {
+        Task.start(new  TaskPerform<String>() {
+            @Override
+            public void onPrepare() {
+                log((Looper.myLooper()==Looper.getMainLooper())+"======onPrepare");
+            }
             @Override
             public void perform(Emitter emitter) {
-                /*子线程*/
-                emitter.onNext("2123");
+                log((Looper.myLooper()==Looper.getMainLooper())+"======perform");
+                emitter.onNext("y123");
                 emitter.onNext("2222");
                 emitter.onNext("3333");
                 emitter.onComplete(1);
+                emitter.onError(null,55);
+                emitter.onComplete(2);
+                emitter.onError(null,23);
+                emitter.onError(null,55);
+                emitter.onNext("55");
             }
             @Override
             public void onNext(String next) {
-                /*主线程*/
+                log((Looper.myLooper()==Looper.getMainLooper())+"======onNext"+next);
+            }
+            @Override
+            public void onComplete(Object object) {
+                log((Looper.myLooper()==Looper.getMainLooper())+"======onComplete"+object);
+            }
+            @Override
+            public void onError(Exception e, Object object) {
+                log((Looper.myLooper()==Looper.getMainLooper())+"======onError"+object);
             }
         });
-
     }
     private void log(String msg){
+        Log.i("=====","====="+msg);
     }
 }
