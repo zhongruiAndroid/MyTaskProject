@@ -1,6 +1,7 @@
 package com.test.mytaskproject;
 
 import android.os.Looper;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,10 +35,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void test() {
-        Task.start(new  TaskPerform<String>() {
+        Task.start(new TaskPerform<String>() {
             @Override
             public void onPrepare() {
-                log((Looper.myLooper()==Looper.getMainLooper())+"======onPrepare");
+                log((Looper.myLooper()==Looper.getMainLooper())+"======onPrepare22");
             }
             @Override
             public void perform(Emitter emitter) {

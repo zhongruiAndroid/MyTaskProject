@@ -5,6 +5,12 @@ import android.util.Log;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Task {
+    public static <T> void start(final TaskPerform<T> taskPerform) {
+        if (taskPerform == null) {
+            throw new IllegalStateException("start(TaskPerform taskPerform) taskPerform can't be null");
+        }
+        start((BaseTaskPerform)taskPerform);
+    }
     public static <T> void start(final BaseTaskPerform<T> taskPerform) {
         if (taskPerform == null) {
             throw new IllegalStateException("start(BaseTaskPerform taskPerform) taskPerform can't be null");
@@ -69,10 +75,13 @@ public class Task {
                     taskPerform.perform(emitter);
                 } catch (final Exception e) {
                     e.printStackTrace();
+                    if (atomicBoolean.get()) {
+                        return;
+                    }
+                    atomicBoolean.set(true);
                     TaskHelper.get().post(new Runnable() {
                         @Override
                         public void run() {
-                            atomicBoolean.set(true);
                             taskPerform.onError(e, e);
                         }
                     });
