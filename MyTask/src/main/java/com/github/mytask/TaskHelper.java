@@ -41,10 +41,16 @@ class TaskHelper {
     }
 
     private Handler getHandler() {
+        if(handler==null){
+            handler = new Handler(Looper.getMainLooper());
+        }
         return handler;
     }
 
     public ExecutorService getExecutorService() {
+        if(executorService==null){
+            executorService = Executors.newCachedThreadPool();
+        }
         return executorService;
     }
 }

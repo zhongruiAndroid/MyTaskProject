@@ -7,13 +7,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Task {
     public static <T> void start(final TaskPerform<T> taskPerform) {
         if (taskPerform == null) {
-            throw new IllegalStateException("start(TaskPerform taskPerform) taskPerform can't be null");
+            return;
+//            throw new IllegalStateException("start(TaskPerform taskPerform) taskPerform can't be null");
         }
         start((BaseTaskPerform)taskPerform);
     }
     public static <T> void start(final BaseTaskPerform<T> taskPerform) {
         if (taskPerform == null) {
-            throw new IllegalStateException("start(BaseTaskPerform taskPerform) taskPerform can't be null");
+            return;
+//            throw new IllegalStateException("start(BaseTaskPerform taskPerform) taskPerform can't be null");
         }
         final AtomicBoolean atomicBoolean = new AtomicBoolean();
         final Emitter emitter = new Emitter<T>() {
